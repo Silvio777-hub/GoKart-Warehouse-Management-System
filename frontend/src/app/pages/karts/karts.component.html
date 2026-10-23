@@ -1,0 +1,125 @@
+<div class="page-container">
+    <div class="header">
+        <div>
+            <h2>Kart Fleet</h2>
+            <div class="header-status">
+                <span class="badge available">
+                    {{totalElements}} Karts
+                </span>
+                <span class="last-updated">
+                    Last updated: {{ lastUpdated | date:'HH:mm:ss' }}
+                </span>
+            </div>
+        </div>
+        @if (role === 'ADMIN') {
+        <div>
+            <app-button [variant]="showAddForm ? 'secondary' : 'primary'" (btnClick)="showAddForm = !showAddForm">
+                {{ showAddForm ? 'Cancel' : 'Add New Kart' }}
+            </app-button>
+        </div>
+        }
+    </div>
+
+    @if (showAddForm) {
+    <app-card title="Add New Kart" class="mb-4">
+        <div class="inline-action-form">
+            <div class="form-group">
+                <label>Kart Code</label>
+                <input [(ngModel)]="newKartCode" placeholder="Kart Code (e.g. K-099)" class="form-control">
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+                <app-button (btnClick)="addKart()" size="lg">Save Kart</app-button>
+            </div>
+        </div>
+    </app-card>
+    }
+
+    <app-card class="action-bar mb-4" [hoverable]="false">
+        <div class="form-grid" style="align-items: center;">
+            <div class="form-group">
+                <label>Search Fleet:</label>
+                <div style="display: flex; gap: 0.5rem;">
+                    <input [(ngModel)]="searchQuery" (keyup.enter)="onSearch()" placeholder="Code or Status..."
+                        class="form-control">
+                    <app-button (btnClick)="onSearch()" variant="primary">Go</app-button>
+                </div>
+            </div>
+
+            <div class="pagination-controls"
+                style="display: flex; align-items: center; justify-content: flex-end; gap: 1.5rem;">
+                <span class="page-info">Page {{page + 1}} of {{totalPages}}</span>
+                <div class="btn-group">
+                    <app-button (btnClick)="prevPage()" [disabled]="page === 0" variant="secondary">Prev</app-button>
+                    <app-button (btnClick)="nextPage()" [disabled]="page >= totalPages - 1"
+                        variant="secondary">Next</app-button>
+                </div>
+            </div>
+        </div>
+    </app-card>
+
+    <app-card [hoverable]="false">
+        <div class="table-responsive">
+            <table class="swam-table">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Hours Run</th>
+                        <th>Status</th>
+                        <th>Notes</th>
+                        @if (role !== 'USER') {
+                        <th>Actions</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (k of karts; track k.id) {
+                    <tr>
+                        <td class="font-bold">{{ k.code }}</td>
+                        <td>{{ k.hoursRun }} hrs</td>
+                        <td>
+                            <span [class]="'badge ' + k.status.toLowerCase()">{{ k.status }}</span>
+                        </td>
+                        <td class="text-dim">{{ k.statusNote || '-' }}</td>
+                        @if (role !== 'USER') {
+                        <td>
+                            @if (selectedKartId !== k.id) {
+                            <div class="actions-cell">
+                                <app-button (btnClick)="selectKart(k)" variant="secondary">Update</app-button>
+
+                                @if (role === 'STAFF') {
+                                <app-button (btnClick)="quickCrash(k.id)" variant="danger">Crash</app-button>
+                                <app-button (btnClick)="pitStop(k.id)">Pit Stop</app-button>
+                                }
+
+                                @if (role === 'MANAGER') {
+                                <app-button (btnClick)="resetHours(k.id)" variant="secondary">Reset Hr</app-button>
+                                }
+                            </div>
+                            }
+
+                            @if (selectedKartId === k.id) {
+                            <div class="edit-status-row">
+                                <select [(ngModel)]="newStatus" class="form-control">
+                                    <option value="AVAILABLE">Available</option>
+                                    <option value="MAINTENANCE">Maintained</option>
+                                    <option value="UNDER_MAINTENANCE">Under Maintenance</option>
+                                    <option value="CRASHED">Crashed</option>
+                                    @if (role === 'MANAGER' || role === 'ADMIN') {
+                                    <option value="RETIRED">Retired</option>
+                                    }
+                                    <option value="OTHER">Other</option>
+                                </select>
+                                <input [(ngModel)]="newNote" placeholder="Note..." class="form-control">
+                                <app-button (btnClick)="updateStatus(k.id)" variant="primary">Save</app-button>
+                                <app-button (btnClick)="selectedKartId = null" variant="danger">X</app-button>
+                            </div>
+                            }
+                        </td>
+                        }
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </app-card>
+</div>

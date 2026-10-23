@@ -1,0 +1,63 @@
+<div class="page-container">
+    <div class="header">
+        <h1><i class="fas fa-calendar-alt"></i> Maintenance Calendar</h1>
+        <p class="text-dim">Overview of scheduled maintenance across the fleet.</p>
+    </div>
+
+    <div class="calendar-nav">
+        <button class="nav-btn" (click)="changeMonth(-1)">
+            &larr; Prev
+        </button>
+        <span class="current-month">{{ currentMonthYear }}</span>
+        <button class="nav-btn" (click)="changeMonth(1)">
+            Next &rarr;
+        </button>
+    </div>
+
+    <div class="calendar-grid">
+        <div class="calendar-day-header" *ngFor="let day of weekDays">{{ day }}</div>
+
+        <!-- Empty days before month start -->
+        <div class="calendar-day empty" *ngFor="let emptyDay of emptyDays"></div>
+
+        <!-- Real days -->
+        <div class="calendar-day" *ngFor="let day of daysInMonth" [class.today]="isToday(day)"
+            (click)="selectDate(day)">
+            <div class="day-number">{{ day }}</div>
+            <div class="events">
+                <div class="event-pill" *ngFor="let s of getSchedulesForDay(day)" [class.overdue]="isOverdue(s)"
+                    [title]="s.description">
+                    <span class="kart-code">{{ s.kart?.code }}</span>: {{ s.description }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Date Details Modal -->
+    <div class="modal-backdrop" *ngIf="selectedDate" (click)="closeDetails()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+                <h3>{{ selectedDate | date:'fullDate' }}</h3>
+                <button class="close-btn" (click)="closeDetails()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="selectedDaySchedules.length === 0" class="empty-state">
+                    No maintenance scheduled for this day.
+                </div>
+                <div class="schedule-list">
+                    <div class="schedule-item" *ngFor="let s of selectedDaySchedules"
+                        [class.item-overdue]="isOverdue(s)">
+                        <div class="item-header">
+                            <span class="k-code">{{ s.kart?.code }}</span>
+                            <span class="status-badge" [class.bg-overdue]="isOverdue(s)" [class.bg-ok]="!isOverdue(s)">
+                                {{ isOverdue(s) ? 'OVERDUE' : 'SCHEDULED' }}
+                            </span>
+                        </div>
+                        <p class="desc">{{ s.description }}</p>
+                        <p class="interval">Repeats every {{ s.intervalDays }} days</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

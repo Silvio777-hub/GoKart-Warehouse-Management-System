@@ -1,0 +1,19 @@
+FROM node:22-bullseye
+
+# Install Chrome for Karma tests
+RUN apt-get update && apt-get install -y \
+    chromium \
+    --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV CHROME_BIN=/usr/bin/chromium
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm install --legacy-peer-deps
+
+COPY . .
+
+# Run tests in headless mode
+CMD ["npm", "run", "test", "--", "--no-watch", "--no-progress", "--browsers=ChromeHeadlessCI"]

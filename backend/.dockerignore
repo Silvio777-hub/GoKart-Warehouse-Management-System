@@ -1,0 +1,32 @@
+# Build outputs
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven
+.m2/
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+*~
+.DS_Store
+.settings/
+.project
+.classpath
+
+# Logs
+*.log
+logs/
+
+# OS
+Thumbs.db
+
+# Test outputs
+test-output/

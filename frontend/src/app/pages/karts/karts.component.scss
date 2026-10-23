@@ -1,0 +1,104 @@
+.page-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-bottom: 0.75rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 0.75rem;
+
+    h2 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+        font-family: 'Outfit';
+    }
+
+    .header-status {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 0.5rem;
+    }
+
+    .last-updated {
+        font-size: 0.85rem;
+        color: var(--text-dim);
+    }
+}
+
+/* Action bar overrides for search/pagination layout */
+.action-bar {
+    ::ng-deep .card-body {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+}
+
+.search-box {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+    max-width: 400px;
+}
+
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .page-info {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        font-weight: 600;
+    }
+
+    .btn-group {
+        display: flex;
+        gap: 8px;
+    }
+}
+
+.actions-cell {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.edit-status-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    min-width: 280px;
+
+    .form-control {
+        flex: 1;
+        min-width: 120px;
+    }
+
+    app-button {
+        flex-shrink: 0;
+    }
+}
+
+.font-bold {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.text-dim {
+    color: var(--text-dim);
+}
+
+.mb-4 {
+    margin-bottom: 0.75rem;
+}

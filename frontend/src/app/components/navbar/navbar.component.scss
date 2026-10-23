@@ -1,0 +1,144 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--nav-bg);
+    backdrop-filter: var(--glass-blur);
+    color: var(--text-main);
+    padding: 0.75rem 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--card-border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    flex-wrap: wrap;
+    /* Allow wrapping for mobile menu */
+}
+
+.brand {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.02em;
+}
+
+.links {
+    display: flex;
+    gap: 1.25rem;
+}
+
+.links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.9rem;
+}
+
+/* Mobile Navigation Toggle */
+.mobile-toggle {
+    display: none;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--text-main);
+    cursor: pointer;
+}
+
+/* Responsive Navigation */
+@media (max-width: 1024px) {
+    .mobile-toggle {
+        display: block;
+    }
+
+    .links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        order: 3;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--card-border);
+        gap: 0.5rem;
+
+        &.open {
+            display: flex;
+        }
+    }
+
+    .user-actions {
+        /* Keep user actions visible or collapse them too? Keeping visible for now */
+        gap: 0.75rem;
+    }
+
+    .role-badge {
+        display: none;
+        /* Hide badge on small screens to save space */
+    }
+}
+
+.links a:hover {
+    color: var(--text-main);
+    background-color: var(--input-bg);
+}
+
+.links a.active {
+    color: var(--primary-contrast);
+    background-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.role-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1.5px solid transparent;
+}
+
+.role-badge.admin {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border-color: rgba(239, 68, 68, 0.2);
+}
+
+.role-badge.manager {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+    border-color: rgba(245, 158, 11, 0.2);
+}
+
+.role-badge.staff {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    border-color: rgba(16, 185, 129, 0.2);
+}
+
+.btn-logout {
+    background: var(--input-bg);
+    border: 1.5px solid var(--input-border);
+    color: var(--text-muted);
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s;
+
+    &:hover {
+        border-color: var(--danger);
+        color: var(--danger);
+        background: rgba(239, 68, 68, 0.05);
+    }
+}

@@ -1,0 +1,55 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:h2:file:./data/swamdb}
+    username: ${SPRING_DATASOURCE_USERNAME:sa}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:validate}
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+  
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+  
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
+# Server port
+server:
+  port: 8081
+  servlet:
+    context-path: /
+  # Increase Tomcat header size just in case
+  max-http-header-size: 20KB
+
+# File Upload Limits
+# File Upload Limits (Configured above)
+
+# H2 console (Enabled only if H2_CONSOLE_ENABLED=true)
+spring.h2.console.enabled: ${H2_CONSOLE_ENABLED:false}
+spring.h2.console.path: /h2-console
+# Allow frames for H2 console
+spring.headers.frame-options: sameorigin
+
+# Security Configuration
+app:
+  jwt:
+    # IMPORTANT: Change this in production!
+    secret: ${JWT_SECRET:gokartwarehouse_super_secret_key_2024_dont_share_this}
+    # 8 hours in milliseconds
+    expiration: 28800000

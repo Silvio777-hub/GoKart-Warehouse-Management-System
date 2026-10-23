@@ -1,0 +1,44 @@
+<div class="audit-container">
+  <header class="page-header">
+    <h1><i class="fas fa-history"></i> System Audit Logs</h1>
+    <p>View recent administrative and staff actions performed across the system.</p>
+  </header>
+
+  <div class="controls card">
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" [(ngModel)]="filterQuery" placeholder="Filter logs by user or action...">
+    </div>
+    <button class="btn btn-secondary" (click)="loadLogs()">
+      <i class="fas fa-sync"></i> Refresh
+    </button>
+  </div>
+
+  <div class="logs-table-container card">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>Action</th>
+          <th>User</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of filteredLogs()">
+          <td class="timestamp">{{ log.timestamp | date:'medium' }}</td>
+          <td>
+            <span class="badge" [ngClass]="getActionClass(log.action)">
+              {{ log.action }}
+            </span>
+          </td>
+          <td><strong>{{ log.user }}</strong></td>
+          <td class="details text-muted">{{ log.details }}</td>
+        </tr>
+        <tr *ngIf="filteredLogs().length === 0">
+          <td colspan="4" class="empty-state">No matching audit logs found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<nav class="navbar" *ngIf="isLoggedIn">
+    <div class="brand">Go Kart Management System</div>
+    <button class="mobile-toggle" (click)="toggleMenu()">☰</button>
+
+    <div class="links" [class.open]="isMenuOpen" (click)="isMenuOpen = false">
+        <!-- Admin only: Dashboard -->
+        <a *ngIf="role === 'ADMIN'" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+
+        <!-- Admin / Staff: Karts -->
+        <a *ngIf="role === 'ADMIN' || role === 'STAFF'" routerLink="/karts" routerLinkActive="active">Karts</a>
+
+        <!-- Admin / Manager / Staff: Tasks -->
+        <a *ngIf="role === 'ADMIN' || role === 'MANAGER' || role === 'STAFF'" routerLink="/tasks"
+            routerLinkActive="active">Tasks</a>
+
+        <!-- Manager / Staff: Parts -->
+        <a *ngIf="role === 'MANAGER' || role === 'STAFF'" routerLink="/parts" routerLinkActive="active">Parts</a>
+
+        <!-- Manager / Staff see Incidents -->
+        <a *ngIf="role === 'MANAGER' || role === 'STAFF'" routerLink="/incidents"
+            routerLinkActive="active">Incidents</a>
+
+        <!-- Manager / Staff: Maintenance -->
+        <a *ngIf="role === 'MANAGER' || role === 'STAFF'" routerLink="/maintenance"
+            routerLinkActive="active">Maintenance</a>
+
+        <!-- Manager only: Schedules -->
+        <a *ngIf="role === 'MANAGER'" routerLink="/schedules" routerLinkActive="active">Schedules</a>
+
+        <!-- Admin / Manager / Staff see Reports -->
+        <a routerLink="/reports" routerLinkActive="active">Reports</a>
+
+        <!-- Admin only: Users -->
+        <a *ngIf="role === 'ADMIN'" routerLink="/users" routerLinkActive="active">Users</a>
+
+        <!-- All see Settings -->
+        <a routerLink="/settings" routerLinkActive="active">Settings</a>
+    </div>
+
+    <div class="user-actions">
+        <span class="role-badge" [class]="role.toLowerCase()">{{ role }}</span>
+        <button class="btn-logout" (click)="logout()">Logout</button>
+    </div>
+</nav>
